@@ -1,4 +1,4 @@
-package com.tatsam.util;
+package com.priority.util;
 
 public class CustomErrorType {
  

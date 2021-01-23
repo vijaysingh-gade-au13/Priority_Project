@@ -1,4 +1,4 @@
-package com.tatsam.contrllor;
+package com.priority.contrllor;
 
 
 
@@ -14,9 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.tatsam.model.Priority;
-import com.tatsam.service.PriorityService;
-import com.tatsam.util.CustomErrorType;
+import com.priority.model.Priority;
+import com.priority.service.PriorityService;
+import com.priority.util.CustomErrorType;
 
 
 @RestController
@@ -28,24 +28,24 @@ public class PriorityController {
 	private PriorityService priorityService;
 	
 
-	//----------CreatePriority/Area API-------------------------------------------------------------------------------
+	//----------CreateArea API-------------------------------------------------------------------------------
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/savePriorityData",method = RequestMethod.POST) 
-    public ResponseEntity<?> createPriority(@RequestBody Priority priority, UriComponentsBuilder ucBuilder) {
+    @RequestMapping(value="/saveArea",method = RequestMethod.POST) 
+    public ResponseEntity<?> createArea(@RequestBody Priority priority,UriComponentsBuilder ucBuilder) {
         
-    	logger.info("createPriority Method Starts...");
-        Priority priorityObj = null;
-    	System.out.println("enter.......................");
+    	logger.info("createArea Method Starts...");
         HttpHeaders headers= null;
         try {
+        	// If there is already an Id in database.
 	        if (priorityService.isPriorityDataExist(priority)) {
-	            logger.error("Unable to create. A Area with id {} already exist", priority.getPriorityId());
-	            return new ResponseEntity(new CustomErrorType("Unable to create Area. A Area with id " + 
-	            		priority.getPriorityId() + " already exist."),HttpStatus.CONFLICT);
+	            logger.error("Unable to create. A Area with Name {} already exist", priority.getAreaName());
+	            return new ResponseEntity(new CustomErrorType("Unable to create Area. A Area with Name " + 
+	            		priority.getAreaName() + " already exist,Please Create New Area!!!"),HttpStatus.CONFLICT);
 	        }
-	        
-	        priorityService.savePriorityData(priority);
-	        
+	        //  New Data to be inserted in database.
+	        if(priority.getPriorityId() == null) {
+	        		priorityService.savePriorityData(priority);
+	        }
 	        headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/api/priority/{id}").buildAndExpand(priority.getPriorityId()).toUri());
         } catch(Exception ex) {
@@ -59,7 +59,7 @@ public class PriorityController {
     
     //------------- listALLPriorityData/AreaData API-------------------------------------------------------------------- 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/getPriorityData",method = RequestMethod.GET)
+	@RequestMapping(value="/getAreaList",method = RequestMethod.GET)
     public ResponseEntity<List<String>> listAllPriorityData() {
         logger.info("getPriorityData Method Starts...");
         List<String> priorityAreaList = null;

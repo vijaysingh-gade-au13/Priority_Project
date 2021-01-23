@@ -1,4 +1,4 @@
-package com.tatsam.model;
+package com.priority.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -7,10 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
-import org.hibernate.validator.constraints.NotEmpty;
 
-import com.sun.istack.NotNull;
+
+
 @Entity
 @Table(name="priority")
 
@@ -25,16 +27,14 @@ public class Priority {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotNull
 	@Column(name="priority_id")
 	public Long getPriorityId() {
 		return priorityId;
 	}
-	public void setAreaId(Long priorityId) {
+	public void setPriorityId(Long priorityId) {
 		this.priorityId = priorityId;
 	}
 	
-	@NotEmpty(message = "Please enter area name")
 	@Column(name="area_name")
 	public String getAreaName() {
 		return areaName;
@@ -43,7 +43,8 @@ public class Priority {
 		this.areaName = areaName;
 	}
 	
-	@NotEmpty(message = "Please enter rating")
+	@Min(1)
+	@Max(5)
 	@Column(name="rating")
 	public Integer getRating() {
 		return rating;
@@ -52,12 +53,11 @@ public class Priority {
 		this.rating = rating;
 	}
 	
-	@NotEmpty(message = "Please enter priority level")
 	@Column(name="priority_level")
 	public String getPriorityLevel() {
 		return priorityLevel;
 	}
-	public void setPriorityType(String priorityLevel) {
+	public void setPriorityLevel(String priorityLevel) {
 		this.priorityLevel = priorityLevel;
 	}
 	

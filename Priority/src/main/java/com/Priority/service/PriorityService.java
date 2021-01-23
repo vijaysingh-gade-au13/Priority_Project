@@ -1,6 +1,7 @@
-package com.tatsam.service;
+package com.priority.service;
 import java.util.List;
-import com.tatsam.model.Priority;
+
+import com.priority.model.Priority;
 
 public interface PriorityService {
 	

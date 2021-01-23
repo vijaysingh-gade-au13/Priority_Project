@@ -1,12 +1,13 @@
-package com.tatsam.serviceImplementation;
+package com.priority.serviceImplementation;
 
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.tatsam.dao.PriorityDao;
-import com.tatsam.model.Priority;
-import com.tatsam.service.PriorityService;
+
+import com.priority.dao.PriorityDao;
+import com.priority.model.Priority;
+import com.priority.service.PriorityService;
 
 
 @Service

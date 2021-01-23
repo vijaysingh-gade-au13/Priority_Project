@@ -1,16 +1,19 @@
-package com.tatsam.daoImplementation;
+package com.priority.daoImplementation;
 
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.tatsam.dao.PriorityDao;
-import com.tatsam.model.Priority;
+
+import com.priority.dao.PriorityDao;
+import com.priority.model.Priority;
 
 
 @Transactional
@@ -29,7 +32,7 @@ public class PriorityDaoImplementation implements PriorityDao{
 	@Override
 	public List<String> getAllPriorityAreaData() {
 		Query query = null; 
-		query = entityManager.createQuery("select p.areaName from Area p");
+		query = entityManager.createQuery("select p.areaName from Priority p");
 		
 		List<String> listOfPriorityAreaData =(List<String>) query.getResultList();
 		return listOfPriorityAreaData;
@@ -37,12 +40,17 @@ public class PriorityDaoImplementation implements PriorityDao{
 
 	
 	//-------------Check if Data Exist in Database by ID---------------------------------
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean isPriorityDataExist(Priority priority) {
 	    
-		Priority priorityObj =null;
-		priorityObj  = entityManager.find(Priority.class, priority.getPriorityId());
-	    if(priorityObj != null) {
+		String priorityId =null;
+		Query query = null;
+		query  = entityManager.createQuery("select p.areaName from Priority p where p.priorityId=:id or p.areaName=:area");
+		query.setParameter("id", priority.getPriorityId());
+		query.setParameter("area", priority.getAreaName());
+		priorityId = (String)query.getResultStream().findFirst().orElse(null);
+	    if (priorityId != null ) {
 		    return true;
 	    }else {
 	    	return false;
@@ -53,7 +61,7 @@ public class PriorityDaoImplementation implements PriorityDao{
 	@Override
 	public void savePriorityData(Priority priority) {
 		try {
-            entityManager.merge(priority);
+            entityManager.persist(priority);
 		}catch(Exception e) {
 			logger.error("Exception while saving Area Data to Database : ",e.getMessage());
 			e.printStackTrace();

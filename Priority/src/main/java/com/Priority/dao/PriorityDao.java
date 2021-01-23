@@ -1,8 +1,8 @@
-package com.tatsam.dao;
+package com.priority.dao;
 
 import java.util.List;
 
-import com.tatsam.model.Priority;
+import com.priority.model.Priority;
 
 public interface PriorityDao {
 
